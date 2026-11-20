@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy 15th Birthday, Lizzy!</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Pacifico&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --pink: #e9a9bd;
+      --deep: #a55e79;
+      --ink: #705665;
+      --cream: #fffaf3;
+      --bg: #f9eaf0;
+      --accent-light: #fff8fb;
+      --border-soft: #f5d9e3;
+      --shadow-rose: #a9657b38;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "DM Sans", sans-serif;
+    }
+
+    button {
+      cursor: pointer;
+      font: inherit;
+      -webkit-tap-highlight-color: transparent;
+    }
+    button:focus-visible {
+      outline: 3px solid var(--deep);
+      outline-offset: 5px;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at 8% 12%, #fff8fb 0 7%, transparent 27%),
+        radial-gradient(circle at 94% 80%, #f1dbea 0 9%, transparent 28%),
+        var(--bg);
+    }
+
+    .stage {
+      width: min(1100px, 100%);
+      aspect-ratio: 16 / 9;
+      min-height: 580px;
+      position: relative;
+      perspective: 1800px;
+    }
+
+    .book {
+      position: absolute;
+      inset: 0;
+      border-radius: 27px;
+      filter: drop-shadow(0 22px 35px var(--shadow-rose));
+      transform-style: preserve-3d;
+    }
+
+    .inside, .cover {
+      position: absolute;
+      inset: 0;
+      border-radius: 25px;
+      overflow: hidden;
+    }
+
+    .inside {
+      background: var(--cream);
+      border: 2px solid #fff;
+      box-shadow:
+        inset 0 0 0 13px #fff7f9,
+        inset 0 0 0 15px var(--border-soft);
+    }
+    .inside::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 20px;
+      bottom: 20px;
+      width: 2px;
+      background: linear-gradient(90deg, #dfb3c4, #fff);
+      opacity: .45;
+      pointer-events: none;
+    }
+
+    .cover {
+      z-index: 4;
+      transform-origin: left center;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      background: linear-gradient(140deg, #ffeaf1, #f6cedd 52%, #fce6ee);
+      border: 2px solid var(--accent-light);
+      box-shadow:
+        inset 0 0 0 12px #fbe0e9,
+        inset 0 0 0 14px var(--accent-light),
+        8px 6px 20px #89546930;
+      transition: transform 1.7s cubic-bezier(.35, .05, .2, 1),
+                  visibility 0s 1.7s;
+    }
+    .cover::before {
+      content: "";
+      position: absolute;
+      inset: 27px;
+      border: 1px dashed #dca5b8;
+      border-radius: 18px;
+      pointer-events: none;
+    }
+    .book.open .cover {
+      transform: rotateY(-178deg);
+      visibility: hidden;
+    }
+
+    .cover-button {
+      position: absolute;
+      inset: 0;
+      border: 0;
+      background: none;
+      color: inherit;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 45px 18%;
+    }
+
+    .eyebrow {
+      font-size: clamp(10px, 1.2vw, 13px);
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #a66d86;
+    }
+
+    h1, h2, p { margin-top: 0; }
+
+    h1 {
+      font-family: "DM Serif Display", serif;
+      font-weight: 400;
+      color: #a35b79;
+      font-size: clamp(35px, 5.4vw, 70px);
+      line-height: 1.08;
+      margin: 17px 0 8px;
+      max-width: 750px;
+    }
+
+    .hero-sub {
+      font-family: "Pacifico", cursive;
+      font-size: clamp(14px, 2vw, 22px);
+      color: #be829b;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #fffafc;
+      border: 1px solid #ebc5d3;
+      border-radius: 100px;
+      padding: 10px 20px;
+      color: #a66c84;
+      font-weight: 700;
+      font-size: clamp(12px, 1.5vw, 17px);
+      box-shadow: 0 5px 13px #be829b20;
+    }
+
+    .hint {
+      margin-top: 24px;
+      color: #955c75;
+      font-size: clamp(12px, 1.4vw, 16px);
+      font-weight: 700;
+      letter-spacing: .03em;
+      animation: pulse 2.6s ease-in-out infinite;
+    }
+
+    .ribbon {
+      position: absolute;
+      z-index: 1;
+      background: #edafc6;
+      width: 45%;
+      height: 22px;
+      left: -12%;
+      top: 17%;
+      transform: rotate(-33deg);
+      box-shadow: 0 3px 8px #9b5c7830;
+    }
+    .ribbon--second {
+      left: auto;
+      right: -13%;
+      top: auto;
+      bottom: 17%;
+    }
+
+    .ornament {
+      position: absolute;
+      pointer-events: none;
+      color: #d996ae;
+      font-size: clamp(17px, 3vw, 37px);
+    }
+    .o1 { top: 11%; left: 15%; }
+    .o2 { top: 14%; right: 17%; }
+    .o3 { bottom: 14%; left: 23%; }
+    .o4 { bottom: 11%; right: 22%; }
+
+    .cover-bunny {
+      position: absolute;
+      font-size: clamp(38px, 7vw, 90px);
+      bottom: 10%;
+      pointer-events: none;
+      filter: drop-shadow(0 6px 5px #b4758c30);
+    }
+    .cover-bunny--left { left: 8%; }
+    .cover-bunny--right { right: 8%; }
+
+    .cover-flower {
+      position: absolute;
+      font-size: clamp(20px, 3vw, 36px);
+      pointer-events: none;
+    }
+    .f1 { top: 26%; left: 10%; }
+    .f2 { top: 25%; right: 10%; }
+    .f3 { bottom: 25%; left: 18%; }
+    .f4 { bottom: 25%; right: 18%; }
+
+    .inside-view, .final-view {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 28px 8%;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .8s ease, visibility 0s .8s;
+    }
+    .book.open:not(.final) .inside-view {
+      opacity: 1;
+      visibility: visible;
+      transition-delay: .85s, .85s;
+    }
+    .book.final .final-view {
+      opacity: 1;
+      visibility: visible;
+      transition-delay: .15s, .15s;
+    }
+
+    .letter-content {
+      position: relative;
+      z-index: 2;
+      width: min(760px, 100%);
+      max-height: 100%;
+      overflow: auto;
+      padding: 12px 10px;
+      scrollbar-color: #e8b8ca transparent;
+    }
+
+    .mini {
+      font-family: "Pacifico", cursive;
+      color: #bb809a;
+      font-size: clamp(21px, 2.5vw, 28px);
+      margin: 0 0 7px;
+    }
+
+    .divider {
+      color: #d69bb0;
+      margin-bottom: 14px;
+    }
+    .divider::before, .divider::after {
+      content: "";
+      display: inline-block;
+      width: 55px;
+      height: 1px;
+      background: #edd4dc;
+      vertical-align: middle;
+      margin: 0 12px;
+    }
+
+    .message {
+      text-align: left;
+      font-family: "DM Serif Display", serif;
+      font-size: clamp(14px, 1.58vw, 19px);
+      line-height: 1.65;
+      color: #735d66;
+    }
+    .message p { margin: 0 0 13px; }
+
+    .inside-sub {
+      font-family: "Pacifico", cursive;
+      color: #bd829c;
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+
+    .action {
+      border: 1px solid #dba6ba;
+      background: #b96f8d;
+      color: white;
+      border-radius: 999px;
+      padding: 10px 22px;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 5px 12px #a55e7933;
+      transition: transform .2s, background .2s;
+    }
+    .action:hover {
+      transform: translateY(-2px);
+      background: var(--deep);
+    }
+    .action--secondary {
+      background: #fff9fb;
+      color: var(--deep);
+    }
+    .action--secondary:hover {
+      background: #fce8f0;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 13px;
+    }
+
+    .photo {
+      position: absolute;
+      z-index: 1;
+      object-fit: contain;
+      pointer-events: none;
+      filter: drop-shadow(0 7px 8px var(--shadow-rose));
+    }
+    .photo--plush {
+      width: clamp(70px, 12vw, 145px);
+      height: clamp(70px, 12vw, 145px);
+      left: 1%;
+      bottom: 2%;
+    }
+    .photo--fairy {
+      width: clamp(75px, 12vw, 145px);
+      height: clamp(75px, 12vw, 145px);
+      right: 1%;
+      top: 2%;
+    }
+
+    .inside-decor {
+      position: absolute;
+      color: #df9cb5;
+      font-size: 28px;
+      pointer-events: none;
+    }
+    .d1 { left: 4%; top: 9%; }
+    .d2 { right: 5%; bottom: 8%; }
+    .d3 { left: 17%; bottom: 7%; }
+    .d4 { right: 19%; top: 8%; }
+
+    .final-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+    }
+    .final-content h2 {
+      font-family: "Pacifico", cursive;
+      font-size: clamp(28px, 4vw, 52px);
+      font-weight: 400;
+      color: #a45e7a;
+      margin: 8px 0 4px;
+    }
+    .final-note {
+      font-family: "DM Serif Display", serif;
+      font-size: clamp(17px, 2vw, 24px);
+      color: #a56d86;
+    }
+    .party {
+      font-size: clamp(56px, 9vw, 115px);
+      line-height: 1.15;
+      white-space: nowrap;
+      margin: 15px 0;
+    }
+
+    .balloon {
+      position: absolute;
+      font-size: clamp(45px, 8vw, 100px);
+      top: 9%;
+      animation: sway 4s ease-in-out infinite;
+    }
+    .balloon--1 { left: 9%; }
+    .balloon--2 { right: 9%; animation-delay: -2s; }
+
+    .final-view .photo--plush { left: 6%; bottom: 5%; }
+    .final-view .photo--fairy { right: 6%; bottom: 5%; top: auto; }
+
+    .magic {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .magic span {
+      position: absolute;
+      left: var(--x);
+      bottom: var(--y);
+      color: #d791ad;
+      font-size: var(--s);
+      opacity: 0;
+    }
+    .book.open .magic span {
+      animation: float 4.5s ease-out infinite;
+      animation-delay: var(--delay);
+    }
+
+    @keyframes float {
+      0%   { opacity: 0; transform: translateY(20px) rotate(-15deg); }
+      20%  { opacity: .8; }
+      75%  { opacity: .65; }
+      100% { opacity: 0; transform: translateY(-100px) rotate(18deg); }
+    }
+    @keyframes sway {
+      50% { transform: translateY(-8px) rotate(5deg); }
+    }
+    @keyframes pulse {
+      50% { opacity: .55; transform: translateY(-3px); }
+    }
+
+    @media (max-width: 700px) {
+      .page { padding: 10px; }
+      .stage {
+        aspect-ratio: auto;
+        min-height: min(780px, calc(100svh - 20px));
+        height: max(620px, calc(100svh - 20px));
+      }
+      .cover-button { padding: 35px 11%; }
+      h1 { font-size: clamp(38px, 9vw, 64px); }
+      .cover-bunny { bottom: 12%; font-size: 60px; }
+      .cover-bunny--left { left: 7%; }
+      .cover-bunny--right { right: 7%; }
+      .inside-view { padding: 28px 8%; }
+      .letter-content { padding: 4px 5px; max-height: calc(100% - 24px); }
+      .message { font-size: clamp(14px, 3.5vw, 17px); line-height: 1.55; }
+      .photo--plush { width: 68px; height: 68px; bottom: 1%; left: 1%; }
+      .photo--fairy { width: 68px; height: 68px; right: 1%; top: 1%; }
+      .final-view .photo { width: 80px; height: 80px; }
+      .party { font-size: clamp(46px, 12vw, 75px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cover, .inside-view, .final-view { transition-duration: .01ms; }
+      .book.open .magic span, .balloon, .hint { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <article class="stage" aria-label="Interactive birthday greeting card for Lizzy">
+      <div class="book" id="book" role="group" aria-label="Birthday card">
+
+        <div class="inside">
+          <section class="inside-view" id="inside-view" aria-label="Birthday message" aria-hidden="true" inert>
+            <span class="inside-decor d1" aria-hidden="true">✿</span>
+            <span class="inside-decor d2" aria-hidden="true">♡</span>
+            <span class="inside-decor d3" aria-hidden="true">୨୧</span>
+            <span class="inside-decor d4" aria-hidden="true">✧</span>
+
+            <img class="photo photo--plush" src="angel-bunny.png" alt="White plush bunny with angel wings" loading="lazy">
+            <img class="photo photo--fairy" src="fairy-bunny.png" alt="Small bunny dressed as a pink fairy with wings" loading="lazy">
+
+            <div class="letter-content">
+              <p class="inside-sub">A magical day for a wonderful girl</p>
+              <h2 class="mini">Dear Lizzy,</h2>
+              <div class="divider" aria-hidden="true">♡</div>
+              <div class="message">
+                <p>I hope you have the most wonderful and memorable birthday! May this new chapter of your life bring you so much happiness, love, laughter, and beautiful memories. I hope you continue growing into the amazing young lady you are, and may all your dreams and wishes come true. Always remember to enjoy your teenage years, have fun, explore new things, and never be afraid to be yourself!</p>
+                <p>I also hope you have an amazing time celebrating with your family! Enjoy spending time together, making lovely memories, sharing lots of laughter, and having fun! I hope you guys have the best time celebrating your special day!</p>
+                <p>May God bless you, guide you, and protect you in everything you do. I wish you nothing but good health, endless happiness, and wonderful opportunities ahead. You deserve all the love and happiness in the world. Have the sweetest 15th birthday, Lizzy! Enjoy your special day to the fullest!</p>
+              </div>
+              <div class="actions">
+                <button class="action" id="surprise-btn" type="button">Click this to see one more little surprise for you ♡</button>
+                <button class="action action--secondary" id="close-btn" type="button">Close card</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="final-view" id="final-view" aria-label="Birthday celebration" aria-hidden="true" inert>
+            <span class="balloon balloon--1" aria-hidden="true">🎈</span>
+            <span class="balloon balloon--2" aria-hidden="true">🎈</span>
+            <img class="photo photo--plush" src="angel-bunny.png" alt="White plush bunny with angel wings joining the celebration" loading="lazy">
+            <img class="photo photo--fairy" src="fairy-bunny.png" alt="Pink fairy bunny joining the celebration" loading="lazy">
+
+            <div class="final-content">
+              <span class="eyebrow">HAPPY 15TH<br>BIRTHDAY, LIZZY!!</span>
+              <div class="party" role="img" aria-label="Bunnies celebrating with birthday cake and balloons">🐰 🎂 🐰</div>
+              <h2>Princess Loves Da Cutie Lizzy! ♡</h2>
+              <p class="final-note">The sweetest day for the sweetest Lizzy ✧</p>
+              <div class="actions">
+                <button class="action" id="back-btn" type="button">Read your letter again</button>
+                <button class="action action--secondary" id="restart-btn" type="button">Close &amp; reopen</button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="cover" id="cover">
+          <span class="ribbon" aria-hidden="true"></span>
+          <span class="ribbon ribbon--second" aria-hidden="true"></span>
+          <span class="ornament o1" aria-hidden="true">✧</span>
+          <span class="ornament o2" aria-hidden="true">♡</span>
+          <span class="ornament o3" aria-hidden="true">♡</span>
+          <span class="ornament o4" aria-hidden="true">✧</span>
+          <span class="cover-flower f1" aria-hidden="true">🌸</span>
+          <span class="cover-flower f2" aria-hidden="true">✿</span>
+          <span class="cover-flower f3" aria-hidden="true">✿</span>
+          <span class="cover-flower f4" aria-hidden="true">🌸</span>
+          <span class="cover-bunny cover-bunny--left" aria-hidden="true">🐰</span>
+          <span class="cover-bunny cover-bunny--right" aria-hidden="true">🐇</span>
+
+          <button class="cover-button" id="open-btn" type="button" aria-label="Open Lizzy's birthday card">
+            <span class="eyebrow">BIRTHDAY WISH FROM PRINCESS TO LIZZY!</span>
+            <h1>Happy 15th Birthday, Lizzy!</h1>
+            <span class="hero-sub">A magical day for a wonderful girl</span>
+            <span class="tag">♡ Some-bunny is turning 15! ♡</span>
+            <span class="hint">Tap to open your surprise! ♡</span>
+          </button>
+        </div>
+
+        <div class="magic" aria-hidden="true">
+          <span style="--x:8%;--y:15%;--s:24px;--delay:0s">♡</span>
+          <span style="--x:18%;--y:38%;--s:17px;--delay:.7s">✧</span>
+          <span style="--x:31%;--y:12%;--s:22px;--delay:1.3s">♡</span>
+          <span style="--x:46%;--y:48%;--s:16px;--delay:.4s">✦</span>
+          <span style="--x:62%;--y:17%;--s:25px;--delay:1.8s">♡</span>
+          <span style="--x:75%;--y:41%;--s:18px;--delay:1s">✧</span>
+          <span style="--x:89%;--y:12%;--s:22px;--delay:2.2s">♡</span>
+        </div>
+
+      </div>
+    </article>
+  </main>
+
+  <script>
+    (() => {
+      const book = document.getElementById('book');
+      const inside = document.getElementById('inside-view');
+      const finalView = document.getElementById('final-view');
+      const openBtn = document.getElementById('open-btn');
+      const cover = document.getElementById('cover');
+
+      function setState(state) {
+        book.classList.toggle('open', state !== 'cover');
+        book.classList.toggle('final', state === 'final');
+        openBtn.disabled = state !== 'cover';
+        openBtn.inert = state !== 'cover';
+
+        inside.setAttribute('aria-hidden', state === 'inside' ? 'false' : 'true');
+        finalView.setAttribute('aria-hidden', state === 'final' ? 'false' : 'true');
+        inside.inert = state !== 'inside';
+        finalView.inert = state !== 'final';
+      }
+
+      function focusAfterTransition(el, target, fallbackMs = 1800) {
+        let done = false;
+        const handler = () => {
+          if (done) return;
+          done = true;
+          el.removeEventListener('transitionend', handler);
+          clearTimeout(timer);
+          target.focus();
+        };
+        const timer = setTimeout(handler, fallbackMs);
+        el.addEventListener('transitionend', handler, { once: true });
+      }
+
+      openBtn.addEventListener('click', () => {
+        setState('inside');
+        focusAfterTransition(cover, document.getElementById('surprise-btn'));
+      });
+
+      document.getElementById('surprise-btn').addEventListener('click', () => {
+        setState('final');
+        document.getElementById('back-btn').focus();
+      });
+
+      document.getElementById('back-btn').addEventListener('click', () => {
+        setState('inside');
+        document.getElementById('surprise-btn').focus();
+      });
+
+      const closeCard = () => {
+        setState('cover');
+        requestAnimationFrame(() => requestAnimationFrame(() => openBtn.focus()));
+      };
+      document.getElementById('close-btn').addEventListener('click', closeCard);
+      document.getElementById('restart-btn').addEventListener('click', closeCard);
+
+      setState('cover');
+    })();
+  </script>
+</body>
+</html>   
